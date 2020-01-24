@@ -1,0 +1,28 @@
+{
+  "include": ["src", "interfaces"],
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "lib",
+    "module": "commonjs",
+    "target": "es2015",
+    "lib": ["es2015"],
+    "alwaysStrict": true,
+    "strictFunctionTypes": true,
+    "strict": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    //"sourceMap": true,
+    "inlineSourceMap": true,
+    "noEmitHelpers": false,
+    "strictNullChecks": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": ["*"]
+    }
+  },
+  "files": ["src/index.ts"]
+}

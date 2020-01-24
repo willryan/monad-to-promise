@@ -1,0 +1,57 @@
+{
+  "name": "monad-to-promise",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Do notation by turning monads into promise-like structures",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "jest --colors",
+    "test:debug": "node --inspect=9229 --inspect-brk ./node_modules/.bin/jest --runInBand",
+    "test:watch": "yarn test:truncate && jest --watch",
+    "build-and-publish": "yarn build && npm login && npm publish"
+  },
+  "jest": {
+    "reporters": [
+      "default"
+    ],
+    "transform": {
+      "\\.(js|ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "./spec/.*\\.spec\\.ts$",
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "json"
+    ],
+    "moduleDirectories": [
+      "src",
+      "node_modules"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/jest-setup.ts"
+  },
+  "repository": "https://github.com/willryan/monad-to-promise",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/"
+  ],
+  "author": "Will Pleasant-Ryan",
+  "devDependencies": {
+    "@types/jest": "^24.9.1",
+    "@types/node": "^13.5.0",
+    "jest": "^25.1.0",
+    "jest-environment-node-debug": "^2.0.0",
+    "ts-jest": "^25.0.0",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.6.2",
+    "tslint": "^6.0.0",
+    "typescript": "3.7.5"
+  },
+  "dependencies": {
+    "clone-deep": "^4.0.1",
+    "source-map-support": "^0.5.16"
+  }
+}
