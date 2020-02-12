@@ -4,7 +4,7 @@ export type Just<T> = { type: "Just"; value: T };
 export type Nothing = { type: "Nothing" };
 export type Maybe<T> = Just<T> | Nothing;
 
-type MaybeBinder = <T>(m: Maybe<T>) => PromiseLike<T>;
+type MaybeBinder = <T>(m: Maybe<T> | Promise<Maybe<T>>) => PromiseLike<T>;
 
 const _nothing: Nothing = { type: "Nothing" };
 
@@ -23,11 +23,12 @@ export function bind<T, U>(m: Maybe<T>, fn: (t: T) => Maybe<U>): Maybe<U> {
 export function doM<T>(
   fn: (b: MaybeBinder) => Promise<Maybe<T>>
 ): Promise<Maybe<T>> {
-  return makeDo<T, Maybe<T>>(m =>
-    m.type === "Just"
-      ? { type: "res", value: m.value }
-      : { type: "rej", value: Nothing() }
-  )(fn);
+  return makeDo<T, Maybe<T>>(async m => {
+    const v = await m;
+    return v.type === "Just"
+      ? { type: "res", value: v.value }
+      : { type: "rej", value: Nothing() };
+  })(fn);
   // const binder: MaybeBinder = m => {
   //   return m.type === "Just"
   //     ? Promise.resolve(m.value)

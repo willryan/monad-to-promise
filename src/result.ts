@@ -42,17 +42,20 @@ export module Result {
     return result.type === Status.FAILURE;
   }
 
-  type ResultBinder<R> = <T>(m: Type<T, R>) => PromiseLike<T>;
+  type ResultBinder<R> = <T>(
+    m: Type<T, R> | Promise<Type<T, R>>
+  ) => PromiseLike<T>;
 
   export function doM<R>() {
     return function<T>(
       fn: (b: ResultBinder<R>) => Promise<Type<T, R>>
     ): Promise<Type<T, R>> {
-      return makeDo<T, Type<T, R>>(m =>
-        m.type === Status.SUCCESS
-          ? { type: "res", value: m.value }
-          : { type: "rej", value: m }
-      )(fn);
+      return makeDo<T, Type<T, R>>(async m => {
+        const v = await m;
+        return v.type === Status.SUCCESS
+          ? { type: "res", value: v.value }
+          : { type: "rej", value: m };
+      })(fn);
     };
   }
 }

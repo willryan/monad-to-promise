@@ -1,7 +1,7 @@
-(function () {
+(function() {
   let lastTime = 0;
   const vendors = ["ms", "moz", "webkit", "o"];
-  const w: any = window;
+  const w: any = global;
   for (let x = 0; x < vendors.length && !w.requestAnimationFrame; ++x) {
     w.requestAnimationFrame = w[vendors[x] + "RequestAnimationFrame"];
     w.cancelAnimationFrame =
@@ -10,10 +10,10 @@
   }
 
   if (!w.requestAnimationFrame) {
-    w.requestAnimationFrame = function (callback: any, _element: any) {
+    w.requestAnimationFrame = function(callback: any, _element: any) {
       const currTime = new Date().getTime();
       const timeToCall = Math.max(0, 16 - (currTime - lastTime));
-      const id = w.setTimeout(function () {
+      const id = w.setTimeout(function() {
         callback(currTime + timeToCall);
       }, timeToCall);
       lastTime = currTime + timeToCall;
@@ -22,7 +22,7 @@
   }
 
   if (!w.cancelAnimationFrame) {
-    w.cancelAnimationFrame = function (id: any) {
+    w.cancelAnimationFrame = function(id: any) {
       clearTimeout(id);
     };
   }
@@ -33,4 +33,3 @@ if (process.env.DEBUGGING) {
 } else {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000 * 60; // 60 seconds
 }
-
