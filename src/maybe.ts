@@ -29,18 +29,4 @@ export function doM<T>(
       ? { type: "res", value: v.value }
       : { type: "rej", value: Nothing() };
   })(fn);
-  // const binder: MaybeBinder = m => {
-  //   return m.type === "Just"
-  //     ? Promise.resolve(m.value)
-  //     : Promise.reject(binder);
-  // };
-  // return fn(binder).catch(e => {
-  //   //console.log("is fail", e);
-  //   if (e === binder) {
-  //     return Nothing();
-  //   } else {
-  //     //console.log("reject", e);
-  //     return Promise.reject(e);
-  //   }
-  //});
 }
