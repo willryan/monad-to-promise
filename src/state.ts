@@ -12,15 +12,14 @@ export function doM<S>() {
   return function<T>(
     fn: (b: StateBinder<S>) => Promise<State<T, S>>
   ): (s: S) => Promise<StateTuple<T, S>> {
-    let st: S;
-    const doer = makeDo<T, State<T, S>>(async m => {
-      const v = await m;
-      const [t, newSt] = await v(st);
-      st = newSt;
-      return { type: "res", value: t };
-    })(fn);
     return async (s: S) => {
-      st = s;
+      let st = s;
+      const doer = makeDo<T, State<T, S>>(async m => {
+        const v = await m;
+        const [t, newSt] = await v(st);
+        st = newSt;
+        return { type: "res", value: t };
+      })(fn);
       return (await doer)(st);
     };
   };

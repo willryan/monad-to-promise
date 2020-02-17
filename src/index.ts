@@ -7,3 +7,7 @@ export { Maybe };
 import * as State from "./state";
 
 export { State };
+
+import * as StateResult from "./state-result";
+
+export { StateResult };
